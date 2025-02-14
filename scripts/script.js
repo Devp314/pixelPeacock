@@ -235,26 +235,57 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Scroll handler
  
-window.addEventListener('scroll', () => {
-  const section = document.querySelector('.services-section');
-  const { top: sectionTop, height: sectionHeight } = section.getBoundingClientRect();
-  const scrollStart = sectionTop + window.scrollY;
-  const scrollEnd = scrollStart + sectionHeight;
-  const currentScroll = window.scrollY + window.innerHeight;
+  window.addEventListener('scroll', () => {
+    const section = document.querySelector('.services-section');
+    const { top: sectionTop, height: sectionHeight } = section.getBoundingClientRect();
+    const scrollStart = sectionTop + window.scrollY;
+    const scrollEnd = scrollStart + sectionHeight;
+    const currentScroll = window.scrollY + window.innerHeight;
+  
+    // Calculate progress within section boundaries
+    const scrollProgress = Math.min(
+      Math.max(0, (currentScroll - scrollStart) / sectionHeight), 
+      1
+    );
+  
+    // Calculate the active card index based on scroll direction
+    // In the scroll event handler
+    let newActive;
 
-  // Calculate progress within section boundaries
-  const scrollProgress = Math.min(
-    Math.max(0, (currentScroll - scrollStart) / sectionHeight), 
-    1
-  );
+    if (window.scrollY > lastScrollY) { 
+      // Scroll down calculation (existing working version)
+      newActive = Math.min(
+        Math.floor(scrollProgress * cards.length),
+        cards.length - 1
+      );
+    } else {
+      // Scroll up calculation (mirror logic)
+      newActive = Math.min(
+        Math.floor((1 - scrollProgress) * (cards.length - 1)),
+        cards.length - 1
+      );
+    }
 
-  const newActive = Math.floor(scrollProgress * (cards.length - 1));
-
-  if(newActive !== currentActive) {
-    currentActive = newActive;
-    updateCards(currentActive);
-  }
-});
+    // Then clamp the value
+    newActive = Math.max(0, Math.min(newActive, cards.length - 1));
+  
+    // Ensure the index stays within bounds
+    // newActive = Math.min(Math.max(newActive, 0), cards.length - 1);
+    //  newActive = Math.min(
+    //   Math.floor(scrollProgress * cards.length),
+    //   cards.length - 1
+    // );
+    if (newActive !== currentActive) {
+      currentActive = newActive;
+      updateCards(currentActive);
+    }
+  
+    // Update last scroll position
+    lastScrollY = window.scrollY;
+  });
+  
+  // Add a variable to track the last scroll position
+  let lastScrollY = window.scrollY;
 
   // Click handler for cards
   cards.forEach((card, index) => {
@@ -274,7 +305,7 @@ window.addEventListener('scroll', () => {
         setTimeout(() => {
           currentActive = index;
           updateCards(currentActive);
-        }, 800);
+        }, 50);
       }
     });
   });
@@ -404,3 +435,72 @@ emailjs.init('N0HtgLQPJwuIqus_A'); // Replace with your EmailJS user ID
           document.getElementById('message').innerHTML = 'Failed to send message. Please try again.';
         });
     });
+
+// YouTube IFrame API
+    // Load YouTube IFrame API
+    var tag = document.createElement('script');
+    tag.src = "https://www.youtube.com/iframe_api";
+    var firstScriptTag = document.getElementsByTagName('script')[0];
+    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+    let player;
+    
+    function onYouTubeIframeAPIReady() {
+        console.log('YouTube IFrame API is ready');
+      player = new YT.Player('company-video', {
+        events: {
+          'onReady': onPlayerReady,
+          'onStateChange': onPlayerStateChange
+        }
+      });
+    }
+    
+    function onPlayerReady(event) {
+        console.log('Player is ready');
+        // Enable custom controls
+        document.querySelector('.play-pause').addEventListener('click', () => {
+          if (player.getPlayerState() === YT.PlayerState.PLAYING) {
+            player.pauseVideo();
+            document.querySelector('.play-icon').style.display = 'inline';
+            document.querySelector('.pause-icon').style.display = 'none';
+          } else {
+            player.playVideo();
+            document.querySelector('.play-icon').style.display = 'none';
+            document.querySelector('.pause-icon').style.display = 'inline';
+          }
+        });
+      }
+    
+    function onPlayerStateChange(event) {
+        console.log('Player state changed:', event.data);
+      const playPauseBtn = document.querySelector('.play-pause');
+      if (event.data === YT.PlayerState.PLAYING) {
+        playPauseBtn.querySelector('.play-icon').style.display = 'none';
+        playPauseBtn.querySelector('.pause-icon').style.display = 'inline';
+      } else {
+        playPauseBtn.querySelector('.play-icon').style.display = 'inline';
+        playPauseBtn.querySelector('.pause-icon').style.display = 'none';
+      }
+    }
+    
+    
+    const fullscreenBtn = document.querySelector('.fullscreen');
+    
+    fullscreenBtn.addEventListener('click', () => {
+      const iframe = document.querySelector('.company-video');
+      if (!document.fullscreenElement) {
+        iframe.requestFullscreen();
+        fullscreenBtn.querySelector('.expand-icon').style.display = 'none';
+        fullscreenBtn.querySelector('.compress-icon').style.display = 'inline';
+      } else {
+        document.exitFullscreen();
+        fullscreenBtn.querySelector('.expand-icon').style.display = 'inline';
+        fullscreenBtn.querySelector('.compress-icon').style.display = 'none';
+      }
+    });
+    const video = document.querySelector('.company-video');
+    const playButton = document.querySelector('.play-button');
+    
+    playButton.addEventListener('click', () => {
+        video.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+    });
+    
