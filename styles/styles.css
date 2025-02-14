@@ -341,7 +341,7 @@ transform: rotate(-45deg) translate(7px, -6px);
 }
 /* Services Section - Fixed Positioning */
 .services-section {
-  height: 300vh;
+  height: 150vh;
   position: relative;
   z-index: 2;
 }
@@ -361,11 +361,11 @@ transform: rotate(-45deg) translate(7px, -6px);
 .service-cards {
   position: sticky;
   top: 0;
-  height: 100vh;
+  height: 130vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0 10%;
+  padding: 0 20%;
   gap: 5%;
   z-index: 3;
 }
