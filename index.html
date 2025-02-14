@@ -174,77 +174,7 @@
 </section>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
-            const cards = document.querySelectorAll('.service-card');
-            const dots = document.querySelectorAll('.progress-dot');
-            let currentActive = 0;
 
-            // Initialize first card as active
-            updateCards(0);
-
-            function updateCards(index) {
-                cards.forEach((card, i) => {
-                    card.classList.remove('active', 'previous', 'next');
-                    
-                    if(i === index) {
-                        card.classList.add('active');
-                    } else if(i < index) {
-                        card.classList.add('previous');
-                    } else {
-                        card.classList.add('next');
-                    }
-                });
-
-                dots.forEach((dot, i) => {
-                    dot.classList.toggle('active', i === index);
-                });
-            }
-
-            // Scroll handler
-            window.addEventListener('scroll', () => {
-                const scrollTop = window.scrollY;
-                const section = document.querySelector('.services-section');
-                const sectionTop = section.offsetTop;
-                const sectionHeight = section.offsetHeight;
-                const scrollProgress = (scrollTop - sectionTop) / sectionHeight;
-                
-                const newActive = Math.min(
-                    Math.max(0, Math.floor(scrollProgress * cards.length)), 
-                    cards.length - 1
-                );
-
-                if(newActive !== currentActive) {
-                    currentActive = newActive;
-                    updateCards(currentActive);
-                }
-            });
-
-            // Click handler for cards
-            cards.forEach((card, index) => {
-                card.addEventListener('click', () => {
-                    if(!card.classList.contains('active')) {
-                        currentActive = index;
-                        updateCards(currentActive);
-                        window.scrollTo({
-                            top: (index * window.innerHeight) + 
-                                 document.querySelector('.services-section').offsetTop,
-                            behavior: 'smooth'
-                        });
-                    }
-                });
-            });
-
-            // Hide progress dots when not in services section
-            ScrollTrigger.create({
-                trigger: '.services-section',
-                start: 'top center',
-                end: 'bottom center',
-                onEnter: () => document.querySelector('.scroll-progress').style.display = 'flex',
-                onLeaveBack: () => document.querySelector('.scroll-progress').style.display = 'none'
-            });
-        });
-  </script>
   <!-- Portfolio Section -->
   <!-- <section id="portfolio" class="portfolio">
     <div class="container">
