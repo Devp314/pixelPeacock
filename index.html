@@ -8,12 +8,12 @@
   <meta name="keywords" content="web development, video production, SEO services, PixelPeacock, marketing, web design">
   <meta property="og:title" content="PixelPeacock Web Development, Video Production & SEO Services">
   <meta property="og:description" content="PixelPeacock offers expert web development, video production, and SEO strategies to elevate your online presence.">
-  <meta property="og:image" content="https://www.yourdomain.com/images/logo.png">
-  <meta property="og:url" content="https://www.pixelpeacock.com/">
+  <meta property="og:image" content="https://www.pixelpeacock.in/images/logo.png">
+  <meta property="og:url" content="https://www.pixelpeacock.in/">
   <meta property="og:type" content="website">
   <title>PixelPeacock Web Development, Video Production & SEO Services</title>
   <link rel="shortcut icon" href="images/favicon.png" type="image/png">
-  <link rel="canonical" href="https://www.pixelpeacock.com/">
+  <link rel="canonical" href="https://www.pixelpeacock.in/">
   <link rel="stylesheet" href="styles/styles.css">
   <!-- ScrollReveal Library -->
   <script src="https://unpkg.com/scrollreveal"></script>
@@ -26,8 +26,8 @@
       "@context": "https://schema.org",
       "@type": "Organization",
       "name": "PixelPeacock",
-      "url": "https://www.pixelpeacock.com/",
-      "logo": "https://www.pixelpeacock.com/logo.png",
+      "url": "https://www.pixelpeacock.in/",
+      "logo": "https://www.pixelpeacock.in/logo.png",
       "description": "Expert web development, video production, and SEO strategies.",
       "sameAs": [
         "https://facebook.com/pixelpeacock",
@@ -133,10 +133,28 @@
         </div>
       </div>
       <!-- Video Column -->
-      <div class="video-column">
-        <video controls poster="images/solar-panel.jpg">
-          <source src="images/pixelPvideo.mp4" type="video/mp4">
-        </video>
+      
+        <div class="video-column">
+          <iframe 
+              id="company-video"
+              class="company-video" 
+              src="https://www.youtube.com/embed/mL5klbHFo4I" 
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+              allowfullscreen>
+          </iframe>
+        </div>
+        <div id="video-fallback" style="display: none;">
+          <p>Unable to load the video. <a href="https://www.youtube.com/watch?v=PZ2bqYhF5_o" target="_blank">Click here to watch on YouTube</a>.</p>
+        </div>
+      
+        <script>
+            setTimeout(() => {
+            if (!window.YT || !window.YT.Player) {
+                document.getElementById('video-fallback').style.display = 'block';
+            }
+            }, 5000); // Show fallback after 5 seconds if the API hasn't loaded
+        </script>
       </div>
 
     </div>
@@ -146,30 +164,29 @@
   
 </section>
 <!-- Services Section -->
-
-<section class="services-section" id ="services-section">
+<!-- Horizontal stack and smooth transition of cards -->
+<section class="services-section" id="services-section">
   <div class="parallax-bg"></div>
-  <div class="service-cards">
-      <div class="service-card active">
-          <h3>Professional Web Development Services</h3>
-          <p>Custom-built websites optimized for performance and conversions.</p>
-      </div>
-      
+  <div class="service-cards-container">
+    <div class="service-cards">
       <div class="service-card">
-          <h3>Video Production</h3>
-          <p>Cinematic video content that engages and converts.</p>
+        <h3>Professional Web Development Services</h3>
+        <p>Custom-built websites optimized for performance and conversions.</p>
       </div>
-      
       <div class="service-card">
-          <h3>SEO Strategy</h3>
-          <p>Data-driven techniques to dominate search rankings.</p>
+        <h3>Video Production</h3>
+        <p>Cinematic video content that engages and converts.</p>
       </div>
+      <div class="service-card">
+        <h3>SEO Strategy</h3>
+        <p>Data-driven techniques to dominate search rankings.</p>
+      </div>
+    </div>
   </div>
-  
   <div class="scroll-progress">
-      <div class="progress-dot active"></div>
-      <div class="progress-dot"></div>
-      <div class="progress-dot"></div>
+    <div class="progress-dot active"></div>
+    <div class="progress-dot"></div>
+    <div class="progress-dot"></div>
   </div>
 </section>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
@@ -245,7 +262,7 @@
   <!-- Footer -->
   <footer>
     <div class="container">
-      <p>&copy; 2023 Pixel Peacock All rights reserved.</p>
+      <p>&copy; 2025 Pixel Peacock All rights reserved.</p>
     </div>
       <!-- <div style="flex: 1; min-width: 250px; margin-bottom: 20px;" class="footer-contact">
          <h3 style="color: #fff; font-size: 24px;">Contact Us</h3>
