@@ -207,6 +207,88 @@ document.addEventListener('DOMContentLoaded', () => {
       });
   });
 });
+document.addEventListener('DOMContentLoaded', () => {
+  const cards = document.querySelectorAll('.service-card');
+  const dots = document.querySelectorAll('.progress-dot');
+  let currentActive = 0;
+
+  // Initialize first card as active
+  updateCards(0);
+
+  function updateCards(index) {
+      cards.forEach((card, i) => {
+          card.classList.remove('active', 'previous', 'next');
+          
+          if(i === index) {
+              card.classList.add('active');
+          } else if(i < index) {
+              card.classList.add('previous');
+          } else {
+              card.classList.add('next');
+          }
+      });
+
+      dots.forEach((dot, i) => {
+          dot.classList.toggle('active', i === index);
+      });
+  }
+
+  // Scroll handler
+ 
+window.addEventListener('scroll', () => {
+  const section = document.querySelector('.services-section');
+  const { top: sectionTop, height: sectionHeight } = section.getBoundingClientRect();
+  const scrollStart = sectionTop + window.scrollY;
+  const scrollEnd = scrollStart + sectionHeight;
+  const currentScroll = window.scrollY + window.innerHeight;
+
+  // Calculate progress within section boundaries
+  const scrollProgress = Math.min(
+    Math.max(0, (currentScroll - scrollStart) / sectionHeight), 
+    1
+  );
+
+  const newActive = Math.floor(scrollProgress * (cards.length - 1));
+
+  if(newActive !== currentActive) {
+    currentActive = newActive;
+    updateCards(currentActive);
+  }
+});
+
+  // Click handler for cards
+  cards.forEach((card, index) => {
+    card.addEventListener('click', (e) => {
+      e.preventDefault();
+      if(!card.classList.contains('active')) {
+        // Calculate exact scroll position for this card
+        const sectionTop = document.querySelector('.services-section').offsetTop;
+        const cardPosition = sectionTop + (index * (window.innerHeight * 0.8));
+        
+        // window.scrollTo({
+        //   top: cardPosition,
+        //   behavior: 'smooth'
+        // });
+        
+        // Force update after scroll completes
+        setTimeout(() => {
+          currentActive = index;
+          updateCards(currentActive);
+        }, 800);
+      }
+    });
+  });
+
+  // Hide progress dots when not in services section
+  ScrollTrigger.create({
+      trigger: '.services-section',
+      start: 'top center',
+      end: 'bottom bottom',
+      onEnter: () => document.querySelector('.scroll-progress').style.display = 'flex',
+      onLeaveBack: () => document.querySelector('.scroll-progress').style.display = 'none'
+  });
+  
+});
 document.getElementById('phone').addEventListener('keydown', function(e) {
   const allowedKeys = ['+', '-', ' ', 'Backspace', 'Tab', 'ArrowLeft', 'ArrowRight', 'Delete'];
   if (!/[0-9]|\./.test(e.key) && !allowedKeys.includes(e.key)) {
