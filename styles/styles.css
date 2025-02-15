@@ -757,7 +757,7 @@ canvas {
   max-width: 50%;
 }
 
-.animation-container video {
+.animation-container img {
   width: 100%;
   height: auto;
   border-radius: 10px;
