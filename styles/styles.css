@@ -361,7 +361,7 @@ transform: rotate(-45deg) translate(7px, -6px);
 .service-cards {
   position: sticky;
   top: 0;
-  height: 100vh;
+  height: 125vh;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -434,14 +434,14 @@ transform: rotate(-45deg) translate(7px, -6px);
 
 /* Content Styling */
 .service-card h3 {
-  font-size: 2.3rem;
+  font-size: 2.1rem;
   color: #eb5647;
   margin-bottom: 1rem;
   text-shadow: 0 0 15px rgb(198 142 142 / 30%);
 }
 
 .service-card p {
-  font-size: 1.8rem;
+  font-size: 1.2rem;
   color: #1d3454;
   line-height: 1.6;
 }
